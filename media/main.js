@@ -94,14 +94,21 @@
         //document.getElementById("response").innerHTML = document.getElementById("response").innerHTML.replaceAll('<', '&lt;').replaceAll('>', '&gt;');
   }
 
-  // Listen for keyup events on the prompt input element
-  document.getElementById('prompt-input').addEventListener('keyup', function (e) {
-    // If the key that was pressed was the Enter key
-    if (e.keyCode === 13) {
+
+  // Listen for click events on the prompt btn element
+  document.getElementById('seend-btn').addEventListener('click',  (e) => {
+    const value = document.getElementById('prompt-input').value;
+    if(value){
       vscode.postMessage({
         type: 'prompt',
-        value: this.value
+        value: value
       });
     }
+  });
+
+  document.getElementById('clear').addEventListener('click', function (e) {
+    vscode.postMessage({
+      type: 'clear'
+    });
   });
 })();

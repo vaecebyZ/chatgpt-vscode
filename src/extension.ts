@@ -189,6 +189,10 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 					{
 						this.search(data.value);
 					}
+				case 'clear':
+					{
+						this.resetConversation();
+					}
 			}
 		});
 	}
@@ -256,7 +260,7 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 			
 			// Make sure the prompt is shown
 			this._view?.webview.postMessage({ type: 'setPrompt', value: this._prompt });
-			this._view?.webview.postMessage({ type: 'addResponse', value: '...' });
+			this._view?.webview.postMessage({ type: 'addResponse', value: '加载中...' });
 
 			// Increment the message number
 			this._currentMessageNumber++;
@@ -342,11 +346,23 @@ class ChatGPTViewProvider implements vscode.WebviewViewProvider {
 				</style>
 			</head>
 			<body>
-				<input class="h-10 w-full text-white bg-stone-700 p-4 text-sm" placeholder="Ask ChatGPT something" id="prompt-input" />
-				
-				<div id="response" class="pt-4 text-sm">
+		
+			<div class="flex flex-col min-h-screen">
+				<div id="response" class="h-5/6 pt-4 text-sm">
 				</div>
 
+				<div class="mt-auto">
+					<textarea class="h-20 w-full text-white bg-stone-700 p-4 text-sm" placeholder="问点啥吧。" id="prompt-input" ></textarea>
+					<div class="flex justify-around">
+						<div id="seend-btn" class="bg-stone-700 hover:bg-stone-600 text-white font-bold py-2 px-4 rounded" >发送</div>
+						<div id="clear" class="bg-stone-700 hover:bg-stone-600 text-white font-bold py-2 px-4 rounded" >清除</div>
+					</div>
+				</div>
+			
+			</div>
+				
+
+			</div>
 				<script src="${scriptUri}"></script>
 			</body>
 			</html>`;
